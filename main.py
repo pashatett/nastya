@@ -229,7 +229,8 @@ print()
 class FractionError(Exception):
     #просто добавляем ошибку чтобы вывводить потом ее
     # в скобках получаем сообщение(ну тип ошибку) которое надо будет вывести в консоль
-    pass
+    def __init__(self, message):
+        super().__init__(message)
 
 class Fraction:
     def __init__(self, numerator: int, denominator: int):
@@ -323,5 +324,9 @@ try:
     print(f"Приведение f1 к float: {float(f1)}")
     print(f"Приведение f1 к int: {int(f1)}")
     f3 = Fraction(5, 0)  # проверка исключения деления на ноль
-except (ZeroDivisionError, FractionError, TypeError) as e:
-    print(f"Ошибка: {e}")
+except FractionError as fe: # ошибка которую мы сами создали и сможем теперь ловить
+    print("Ошибка (FractionError):", fe)
+except ZeroDivisionError as zde: # встроенная ошибка
+    print("Ошибка (ZeroDivisionError):", zde)
+except Exception as e: # ловим другие, неизвестные нам ошибки
+    print("Неизвестная ошибка:", e)
