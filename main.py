@@ -185,26 +185,27 @@ class Number:
 
 
 class Circle(Number):
+#добавилось двойное нижнее подчеркивание в название переменной
+#изза этого она теперь считается приватной и мы не сможешь вывести ее без класса для вывода
     def __init__(self, radius: float):
-        super().__init__(radius)
+        if radius <= 0:
+            raise ValueError("Радиус должен быть положительным числом")
+        self.__radius = radius
 
     def set_radius(self, radius: float):
         if radius <= 0:
             raise ValueError("Радиус должен быть положительным числом")
-        self._value = radius
+        self.__radius = radius
 
-    #получение ардиуса
     def get_radius(self):
-        return self._value
+        return self.__radius
 
-    #изменение радиуса
     def area(self):
-        return math.pi * self._value ** 2
+        return math.pi * self.__radius ** 2
 
-    #площадь круга
     def circumference(self):
-        return 2 * math.pi * self._value
-        #в библиотеке матх берем число пи
+        return 2 * math.pi * self.__radius
+
 
 
 
@@ -218,6 +219,12 @@ print(f"Длина окружности: {circle.circumference()}")
 
 circle.set_radius(7)
 print(f"Новый радиус: {circle.get_radius()}")
+
+
+try:
+    print(circle.__radius)  # Ошибка, так как __radius теперь скрыт
+except AttributeError:
+    print("Ошибка: Доступ к радиусу напрямую запрещён")
 
 
 print()
